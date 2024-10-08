@@ -1,0 +1,88 @@
+# Ignore .vs folder (Visual Studio)
+.vs/
+
+# Ignore node_modules (Node.js projects)
+node_modules/
+
+# Ignore log files
+*.log
+
+# Ignore temporary files
+*.tmp
+*.swp
+*.swo
+
+# Ignore build output directories
+dist/
+build/
+out/
+
+# Ignore dependency directories
+vendor/
+
+# Ignore IDE-specific files
+.idea/
+*.iml
+
+# Ignore MacOS specific files
+.DS_Store
+
+# Ignore Python specific files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore virtual environment directories
+venv/
+ENV/
+env/
+
+# Ignore Java specific files
+*.class
+*.war
+*.ear
+
+# Ignore C++ specific files
+*.o
+*.obj
+*.exe
+*.dll
+
+# Ignore Rust specific files
+target/
+
+# Ignore Go specific files
+*.out
+
+# Ignore backup files
+*.bak
+
+# Ignore coverage reports
+coverage/
+*.lcov
+coverage-final.json
+
+# Ignore Yarn files
+.yarn/
+.pnp.*
+yarn-error.log
+
+# Ignore Parcel cache
+.cache/
+
+# Ignore SvelteKit build output
+.svelte-kit/
+.svelte/
+
+# Ignore temporary files created by editors
+*~
+
+# Ignore environment variable files
+.env
+.env.local
+.env.*.local
+
+# Ignore build output directories for .NET projects
+ProgettoPissir/**/bin/
+ProgettoPissir/**/obj/

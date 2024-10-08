@@ -1,0 +1,45 @@
+﻿@page
+@model IndexModel
+@using System.Security.Claims;
+@using SmartParkCore.Security;
+@{
+    ViewData["Title"] = "Home page";
+
+    var tokenJwt = Request.Cookies["JwtToken"];
+    var ruolo = "";
+
+    if (tokenJwt != null)
+    {
+        var handler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
+        var token = handler.ReadJwtToken(tokenJwt);
+
+        ruolo = token.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+    }
+}
+
+
+<div class="text-center">
+    @if (ruolo == Ruolo.Amministratore)
+    {
+        <button class="button" onclick="window.location.href='/PannelloControllo'">Pannello di Controllo</button>
+    }
+    else
+    {
+        <h2 class="display-4">Benvenuto in SmartPark!</h2>
+        <div class="button-pair">        
+            <form method="POST" asp-page-handler="Sosta" class="inline-form">
+                <button type="submit" class="button">Richiedi Sosta</button>
+            </form>
+            <button class="button" onclick="window.location.href='/SostaPrenotata'">Richiedi Sosta Prenotata</button>
+        </div>
+        <div class="button-pair">
+            <button class="button" onclick="window.location.href='/PrenotaSosta'">Prenota Sosta</button>
+            <button class="button" onclick="window.location.href='/Ricarica'">Richiedi Ricarica</button>        
+        </div>
+        <div class="button-pair">
+            <button class="button" onclick="window.location.href='/RegistratiPremium'">Passa a Premium</button>
+            <button class="button" onclick="window.location.href='/Pagamento'">Paga ed esci</button>
+        </div>
+    }
+</div>
+

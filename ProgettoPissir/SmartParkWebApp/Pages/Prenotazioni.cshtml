@@ -1,0 +1,31 @@
+﻿@page
+@model SmartParkWebApp.Pages.PrenotazioniModel
+@{
+    ViewData["Title"] = "Prenotazioni";
+}
+<h3>Prenotazioni in Sospeso</h3>
+@if (Model.Prenotazioni != null && Model.Prenotazioni.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Data Inizio</th>
+                <th>Data Fine</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var prenotazione in Model.Prenotazioni)
+            {
+                <tr>
+                    <td>@prenotazione.DataInizio.ToString("dd/MM/yyyy 'alle' HH:mm")</td>
+                    <td>@prenotazione.DataFine.ToString("dd/MM/yyyy 'alle' HH:mm")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h5>Non ci sono prenotazioni attive.</h5>
+}
+

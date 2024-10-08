@@ -1,0 +1,22 @@
+﻿@page
+@model SmartParkWebApp.Pages.PagamentoModel
+@{
+    var errore = (string)TempData["Validazione"];
+}
+<h3>Area Pagamento</h3>
+@if (!string.IsNullOrEmpty(errore))
+{
+    <h5 class="text-danger" style="margin-top: 20px;">Errore: @errore</h5>
+}
+<form method="POST" class="mbr-form form-with-styler mx-auto align-center" asp-page="Pagamento">
+    <div class="form-group mb-3">
+        <label asp-for="UtenteTarga.Targa">Inserisci la targa del veicolo con cui hai effettuato l'accesso:</label>
+        <input asp-for="UtenteTarga.Targa" class="form-control" />
+        <span asp-validation-for="UtenteTarga.Targa" class="text-danger"></span>
+    </div>
+    <div class="dragArea row">
+        <div class="col-auto mbr-section-btn align-center">
+            <button type="submit" class="btn btn-primary btn-green display-4">Conferma</button>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,95 @@
+﻿@page
+@model SmartParkWebApp.Pages.RegistrazioneModel
+@{
+    ViewData["Title"] = "Registrazione";
+    var errore = (string)TempData["Validazione"];
+}
+
+<h3>Registrazione</h3>
+@if (!string.IsNullOrEmpty(errore))
+{
+    <h5 class="text-danger" style="margin-top: 20px;">Errore: @errore</h5>
+}
+<form method="post" asp-page="Registrati" asp-page-handler="Register">
+    <div class="form-group mb-3">
+        <label asp-for="Utente.Nome"></label>
+        <input asp-for="Utente.Nome" class="form-control" />
+        <span asp-validation-for="Utente.Nome" class="text-danger"></span>
+    </div>
+    <div class="form-group mb-3">
+        <label asp-for="Utente.Cognome"></label>
+        <input asp-for="Utente.Cognome" class="form-control" />
+        <span asp-validation-for="Utente.Cognome" class="text-danger"></span>
+    </div>
+    <div class="form-group mb-3">
+        <label asp-for="Utente.NumeroCarta">Numero Carta</label>
+        <input asp-for="Utente.NumeroCarta" class="form-control" />
+        <span asp-validation-for="Utente.NumeroCarta" class="text-danger"></span>
+    </div>
+    <div class="form-group mb-3">
+        <label asp-for="Utente.Email"></label>
+        <input asp-for="Utente.Email" class="form-control" />
+        <span asp-validation-for="Utente.Email" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="Utente.Password"></label>
+        <input asp-for="Utente.Password" type="password" class="form-control" id="password" />
+        <input type="checkbox" onclick="togglePassword('password')"> Mostra Password
+        <span asp-validation-for="Utente.Password" class="text-danger"></span>
+    </div>
+
+    <div id="vehicles">
+        <h3>Veicoli</h3>
+        <div class="vehicle" id="vehicle_0">
+            <h4>Veicolo 1</h4>
+            <div class="form-group mb-3">
+                <label asp-for="Utente.Veicoli[0].Targa">Targa</label>
+                <input asp-for="Utente.Veicoli[0].Targa" class="form-control" />
+                <span asp-validation-for="Utente.Veicoli[0].Targa" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="Utente.Veicoli[0].CapacitaBatteria">Capacità Batteria (in kWh)</label>
+                <input asp-for="Utente.Veicoli[0].CapacitaBatteria" class="form-control" />
+                <span asp-validation-for="Utente.Veicoli[0].CapacitaBatteria" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+
+    <button type="button" class="btn btn-secondary" onclick="addVehicle()">Aggiungi Veicolo</button>
+    <button type="submit" class="btn btn-primary btn-green">Registrati</button>
+</form>
+
+@section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+        <script>
+            function togglePassword(fieldId) {
+                var passwordField = document.getElementById(fieldId);
+                if (passwordField.type === "password") {
+                    passwordField.type = "text";
+                } else {
+                    passwordField.type = "password";
+                }
+            }
+
+            function addVehicle() {
+                var vehicleIndex = document.querySelectorAll('#vehicles .vehicle').length;
+                var vehicleDiv = document.createElement('div');
+                vehicleDiv.className = 'vehicle';
+                vehicleDiv.id = 'vehicle_' + vehicleIndex;
+                vehicleDiv.innerHTML = `
+                    <h4>Veicolo ${vehicleIndex + 1}</h4>
+                    <div class="form-group mb-3">
+                        <label for="Utente_Veicoli_${vehicleIndex}__Targa">Targa</label>
+                        <input name="Utente.Veicoli[${vehicleIndex}].Targa" class="form-control" />
+                        <span class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="Utente_Veicoli_${vehicleIndex}__CapacitaBatteria">Capacità Batteria (in kWh)</label>
+                        <input name="Utente.Veicoli[${vehicleIndex}].CapacitaBatteria" class="form-control" />
+                        <span class="text-danger"></span>
+                    </div>`;
+                document.getElementById('vehicles').appendChild(vehicleDiv);
+            }
+        </script>
+}

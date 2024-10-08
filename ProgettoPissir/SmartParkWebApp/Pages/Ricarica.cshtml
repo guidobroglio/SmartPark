@@ -1,0 +1,76 @@
+﻿@page
+@model SmartParkWebApp.Pages.RicaricaModel
+@using System.Security.Claims;
+@using SmartParkCore.Security;
+@{
+    ViewData["Title"] = "Ricarica";
+
+    var errore = (string)TempData["Validazione"];
+
+    var tokenJwt = Request.Cookies["JwtToken"];
+    var ruolo = "";
+
+    if (tokenJwt != null)
+    {
+        var handler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
+        var token = handler.ReadJwtToken(tokenJwt);
+
+        ruolo = token.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+    }
+}
+
+@if (ruolo == Ruolo.Amministratore)
+{
+    <h3>Posizione attuale MWbot</h3>
+
+    @if (Model.RicaricaAttiva == null)
+    {
+        <h5>
+            MWbot non sta ricaricando nessun veicolo.
+        </h5>
+    }
+    else
+    {
+        <h5>
+            MWbot sta ricaricando il veicolo "@Model.RicaricaAttiva.Veicolo.Targa" al posto @Model.RicaricaAttiva.IdPosto.
+        </h5>
+    }
+}
+else
+{
+    <h3>Richiedi Ricarica</h3>
+    @if (Model.RicaricaAttiva == null)
+    {
+        <h5>Ti informiamo che hai @Model.RicaricheInCoda veicoli davanti a te.</h5>
+
+        @if (!string.IsNullOrEmpty(errore))
+        {
+            <h5 class="text-danger" style="margin-top: 20px;">Errore: @errore</h5>
+        }        
+
+        <form method="POST" class="mbr-form form-with-styler mx-auto align-center" asp-page="Ricarica">
+            
+            <div class="form-group mb-3">
+                <label asp-for="Veicolo.PercentualeBatteria">Percentuale attuale della batteria</label>
+                <input asp-for="Veicolo.PercentualeBatteria" class="form-control" />
+                <span asp-validation-for="Veicolo.PercentualeBatteria" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="Ricarica.PercentualeRicarica">Percentuale desiderata della batteria</label>
+                <input asp-for="Ricarica.PercentualeRicarica" class="form-control" />
+                <span asp-validation-for="Ricarica.PercentualeRicarica" class="text-danger"></span>
+            </div>
+            <div class="dragArea row">
+                <div class="col-auto mbr-section-btn align-center">
+                    <button type="submit" class="btn btn-primary btn-green display-4">Richiedi ricarica</button>
+                </div>
+            </div>
+        </form>
+    }
+    else
+    {
+        <h5>
+            La ricarica al veicolo "@Model.RicaricaAttiva.Veicolo.Targa" iniziata il giorno @Model.RicaricaAttiva.DataInizio.ToString("dd/MM/yyyy 'alle' HH:mm") è in corso.
+        </h5>
+    }
+}

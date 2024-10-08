@@ -1,0 +1,26 @@
+﻿@page
+@model SmartParkWebApp.Pages.PrenotaSostaModel
+@{
+    ViewData["Title"] = "Prenota Sosta";
+    var errore = (string)TempData["Validazione"];
+}
+
+<h3>Prenota una sosta</h3>
+<h5>Attenzione: è necessario presentarsi nell'intervallo dichiarato, altrimenti verrà addebitata una penale.</h5>
+@if (!string.IsNullOrEmpty(errore))
+{
+    <h5 class="text-danger" style="margin-top: 20px;">Errore: @errore</h5>
+}
+<form method="post" asp-page="PrenotaSosta" asp-page-handler="Prenotazione">
+    <div class="form-group mb-3">
+        <label asp-for="Prenotazione.DataInizio">Data di inizio</label>
+        <input asp-for="Prenotazione.DataInizio" class="form-control" />
+        <span asp-validation-for="Prenotazione.DataInizio" class="text-danger"></span>
+    </div>
+    <div class="form-group mb-3">
+        <label asp-for="Prenotazione.DataFine">Data di fine</label>
+        <input asp-for="Prenotazione.DataFine" class="form-control" />
+        <span asp-validation-for="Prenotazione.DataFine" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary btn-green">Prenota</button>
+</form>

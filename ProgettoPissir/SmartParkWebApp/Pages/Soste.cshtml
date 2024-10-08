@@ -1,0 +1,31 @@
+﻿@page
+@model SmartParkWebApp.Pages.SosteModel
+@{
+}
+<h3>Soste in Corso</h3>
+@if (Model.Soste != null && Model.Soste.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Veicolo</th>
+                <th>Data Inizio</th>
+                <th>Posto</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var sosta in Model.Soste)
+            {
+                <tr>
+                    <td>@sosta.Veicolo.Targa</td>
+                    <td>@sosta.DataInizio.ToString("dd/MM/yyyy 'alle' HH:mm")</td>
+                    <td>@sosta.Posto.Id</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h5>Non ci sono soste in corso.</h5>
+}

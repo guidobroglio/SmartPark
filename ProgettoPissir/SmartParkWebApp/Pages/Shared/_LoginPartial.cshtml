@@ -1,0 +1,38 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using System.IdentityModel.Tokens.Jwt
+@using System.Security.Claims
+@{
+     var tokenJwt = Context.Request.Cookies["JwtToken"];
+    var nome = "";
+
+    if (tokenJwt != null)
+    {
+        var handler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
+        var token = handler.ReadJwtToken(tokenJwt);
+
+        nome = token.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
+    }
+}
+
+<ul class="navbar-nav">
+    @if (tokenJwt != null)
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" href="/AreaPersonale">Ciao @nome!</a>
+        </li>
+        <li class="nav-item">
+            <form class="form-inline" asp-page="Accedi" asp-page-handler="Logout" method="post">
+                <button type="submit" class="nav-link btn btn-link text-dark">Esci</button>
+            </form>
+        </li>
+    }
+else
+{
+    <li class="nav-item">
+        <a href="/Registrati" class="nav-link text-dark">Registrati</a>
+    </li>
+    <li class="nav-item">
+        <a href = "/Accedi" class="nav-link text-dark">Accedi</a>
+    </li>
+}
+</ul>

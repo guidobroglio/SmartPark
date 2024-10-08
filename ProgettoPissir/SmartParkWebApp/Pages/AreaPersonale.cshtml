@@ -1,0 +1,80 @@
+﻿@page
+@model SmartParkWebApp.Pages.AreaPersonaleModel
+@{
+    ViewData["Title"] = "Area Personale";
+    var errore = (string)TempData["Validazione"];
+}
+
+<h3>Area Personale</h3>
+@if (!string.IsNullOrEmpty(errore))
+{
+    <h5 class="text-danger" style="margin-top: 20px;">Errore: @errore</h5>
+}
+@if (Model.Utente != null)
+{
+    <h5>Modifica i tuoi dati:</h5>
+    <form method="POST" asp-page="AreaPersonale">
+        <div class="form-group mb-3">
+            <label asp-for="Utente.Nome"></label>
+            <input asp-for="Utente.Nome" class="form-control" value="@Model.Utente.Nome" />
+            <span asp-validation-for="Utente.Nome" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-3">
+            <label asp-for="Utente.Cognome"></label>
+            <input asp-for="Utente.Cognome" class="form-control" value="@Model.Utente.Cognome" />
+            <span asp-validation-for="Utente.Cognome" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-3">
+            <label asp-for="Utente.NumeroCarta">Numero Carta</label>
+            <input asp-for="Utente.NumeroCarta" class="form-control" value="@Model.Utente.NumeroCarta" />
+            <span asp-validation-for="Utente.NumeroCarta" class="text-danger"></span>
+        </div>
+        @for (int i = 0; i < Model.Utente.Veicoli.Count; i++)
+        {
+            <h5>Veicolo @(i+1)</h5>
+            <input type="hidden" asp-for="@Model.Utente.Veicoli[i].Id" />
+            <div class="form-group mb-3">
+                <label asp-for="@Model.Utente.Veicoli[i].Targa"></label>
+                <input asp-for="@Model.Utente.Veicoli[i].Targa" class="form-control" value="@Model.Utente.Veicoli[i].Targa" />
+                <span asp-validation-for="@Model.Utente.Veicoli[i].Targa" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="@Model.Utente.Veicoli[i].CapacitaBatteria"></label>
+                <input asp-for="@Model.Utente.Veicoli[i].CapacitaBatteria" class="form-control" value="@Model.Utente.Veicoli[i].CapacitaBatteria" />
+                <span asp-validation-for="@Model.Utente.Veicoli[i].CapacitaBatteria" class="text-danger"></span>
+            </div>
+        }
+        <h5>Inserisci le credenziali per confermare</h5>
+        <div class="form-group mb-3">
+            <label asp-for="Utente.Email"></label>
+            <input asp-for="Utente.Email" class="form-control" />
+            <span asp-validation-for="Utente.Email" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-3">
+            <label asp-for="Utente.Password"></label>
+            <input asp-for="Utente.Password" type="password" class="form-control" id="password" />
+            <input type="checkbox" onclick="togglePassword('password')"> Mostra Password
+            <span asp-validation-for="Utente.Password" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-green">Modifica</button>
+    </form>
+}
+else
+{
+    <p>Impossibile caricare i dati utente. Per favore, riprova più tardi.</p>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function togglePassword(fieldId) {
+            var passwordField = document.getElementById(fieldId);
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+            } else {
+                passwordField.type = "password";
+            }
+        }
+    </script>
+}

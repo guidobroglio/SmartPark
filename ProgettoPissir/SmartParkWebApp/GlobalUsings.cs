@@ -1,0 +1,10 @@
+﻿global using SmartParkCore.Data;
+global using SmartParkCore.Models.Entities;
+global using SmartParkCore.Data.Interfacce;
+global using SmartParkCore.Data.Repository;
+global using SmartParkManager.Interfacce;
+global using SmartParkManager.Gestori;
+global using SmartParkIoT.MWbot;
+global using SmartParkIoT.Parcheggio;
+global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.AspNetCore.Mvc.RazorPages;

@@ -1,0 +1,30 @@
+﻿@page
+@model SmartParkWebApp.Pages.RegistratiPremiumModel
+@{
+    var errore = (string)TempData["Validazione"];
+}
+
+<h3>Diventa Utente Premium!</h3>
+<h5>La sottoscrizione al livello Premium ha un costo di 10 €.</h5>
+@if (!string.IsNullOrEmpty(errore))
+{
+    <h5 class="text-danger" style="margin-top: 20px;">Errore: @errore</h5>
+}
+<br>
+<form method="post" class="mbr-form form-with-styler mx-auto align-center" asp-page="RegistratiPremium">
+    <div class="form-group mb-3">
+        <label asp-for="Utente.Email"></label>
+        <input asp-for="Utente.Email" class="form-control" />
+        <span asp-validation-for="Utente.Email" class="text-danger"></span>
+    </div>
+    <div class="form-group mb-3">
+        <label asp-for="Utente.Password"></label>
+        <input asp-for="Utente.Password" class="form-control" type="password" />
+        <span asp-validation-for="Utente.Password" class="text-danger"></span>
+    </div>
+    <div class="dragArea row">
+        <div class="col-auto mbr-section-btn align-center">
+            <button type="submit" class="btn btn-primary btn-green display-4">Conferma</button>
+        </div>
+    </div>
+</form>

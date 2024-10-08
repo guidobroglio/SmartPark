@@ -1,0 +1,94 @@
+﻿@page
+@model SmartParkWebApp.Pages.PannelloControlloModel
+@{
+}
+
+
+<h3>Occupazione parcheggio:</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Numero Posto</th>
+            <th>Occupazione</th>
+            <th>Veicolo</th>
+            <th>Data Inizio Sosta</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var occupazione in Model.Info.Occupazioni)
+        {
+            <tr>
+                <td>@occupazione.Id</td>
+                @if (occupazione.Disponibile)
+                {
+                    <td>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="green" class="bi bi-circle-fill" viewBox="0 0 16 16">
+                            <circle cx="8" cy="8" r="8" />
+                        </svg>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-circle-fill" viewBox="0 0 16 16">
+                            <circle cx="8" cy="8" r="8" />
+                        </svg>
+                    </td>
+                }
+                <td>@(string.IsNullOrEmpty(occupazione.Targa) ? "-" : occupazione.Targa)</td>
+                <td>@(occupazione.DataInizio == DateTime.MinValue ? "-" : occupazione.DataInizio.ToString("g"))</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<br />
+
+<h3>Prezzi:</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Sosta €/ora</th>
+            <th>Ricarica €/kW</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>@Model.Info.Prezzo.PrezzoSosta</td>
+            <td>@Model.Info.Prezzo.PrezzoRicarica</td>
+        </tr>
+    </tbody>
+</table>
+
+
+<br />
+
+<button class="btn btn-primary btn-green" data-bs-toggle="modal" data-bs-target="#modificaPrezziModal">Modifica i Prezzi</button>
+
+<div class="modal fade" id="modificaPrezziModal" tabindex="-1" aria-labelledby="modificaPrezziLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modifica i Prezzi</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="POST" asp-page="PannelloControllo">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="prezzoSosta" class="form-label">Prezzo Sosta (€/ora)</label>
+                        <input class="form-control" id="prezzoSosta" name="prezzoSosta" value="@Model.Info.Prezzo.PrezzoSosta" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="prezzoRicarica" class="form-label">Prezzo Ricarica (€/kW)</label>
+                        <input class="form-control" id="prezzoRicarica" name="prezzoRicarica" value="@Model.Info.Prezzo.PrezzoRicarica" required>
+                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary btn-green">Salva modifiche</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+

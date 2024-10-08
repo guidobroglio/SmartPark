@@ -1,0 +1,18 @@
+﻿@page
+@model SmartParkWebApp.Pages.SostaPrenotataModel
+@{
+}
+<h3>Richiedi una Sosta Prenotata</h3>
+<h5>Conferma per attivare una sosta per il tuo veicolo.</h5>
+<form method="POST" class="mbr-form form-with-styler mx-auto align-center">
+    <div class="form-group mb-3">
+        <label asp-for="Sosta.Veicolo.Targa">Inserisci la targa del veicolo con cui vuoi effettuare l'accesso:</label>
+        <input asp-for="Sosta.Veicolo.Targa" class="form-control" />
+        <span asp-validation-for="Sosta.Veicolo.Targa" class="text-danger"></span>
+    </div>
+    <div class="dragArea row">
+        <div class="col-auto mbr-section-btn align-center">
+            <button type="submit" class="btn btn-primary btn-green display-4">Conferma Sosta</button>
+        </div>
+    </div>
+</form>

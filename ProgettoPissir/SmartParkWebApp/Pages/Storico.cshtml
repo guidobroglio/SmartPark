@@ -1,0 +1,108 @@
+﻿@page
+@model StoricoModel
+@{
+    ViewData["Title"] = "Storico";
+}
+
+<h3>Storico Soste</h3>
+
+@if (Model.Soste != null && Model.Soste.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Veicolo</th>
+                <th>Data Inizio</th>
+                <th>Data Fine</th>
+                <th>Posto</th>
+                <th>Prezzo</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var sosta in Model.Soste)
+            {
+                <tr>
+                    <td>@sosta.Veicolo.Targa</td>
+                    <td>@sosta.DataInizio.ToString("dd/MM/yyyy 'alle' HH:mm:ss")</td>
+                    <td>@sosta.DataFine.ToString("dd/MM/yyyy 'alle' HH:mm:ss")</td>
+                    <td>@sosta.Posto.Id</td>
+                    <td>@sosta.PrezzoSosta €</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h5>Non sono presenti soste.</h5>
+}
+
+<br />
+
+<h3>Storico Ricariche</h3>
+
+@if (Model.Ricariche != null && Model.Ricariche.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Veicolo</th>
+                <th>Data Inizio</th>
+                <th>Data Fine</th>
+                <th>Percentuale</th>
+                <th>Prezzo</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ricarica in Model.Ricariche)
+            {
+                <tr>
+                    <td>@ricarica.Veicolo.Targa</td>
+                    <td>@ricarica.DataInizio.ToString("dd/MM/yyyy 'alle' HH:mm:ss")</td>
+                    <td>@ricarica.DataFine.ToString("dd/MM/yyyy 'alle' HH:mm:ss")</td>
+                    <td>@ricarica.PercentualeRicarica %</td>
+                    <td>@ricarica.PrezzoRicarica €</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h5>Non sono presenti ricariche.</h5>
+}
+
+<br />
+
+<h3>Storico Pagamenti</h3>
+
+@if (Model.Pagamenti != null && Model.Pagamenti.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Veicolo</th>
+                <th>Data</th>
+                <th>Prezzo Sosta</th>
+                <th>Prezzo Ricarica</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var pagamento in Model.Pagamenti)
+            {
+                <tr>
+                    <td>@(string.IsNullOrWhiteSpace(pagamento.Veicolo.Targa) ? "-" : pagamento.Veicolo.Targa)</td>
+                    <td>@pagamento.Data.ToString("dd/MM/yyyy 'alle' HH:mm:ss")</td>
+                    <td>@pagamento.ImportoSosta €</td>
+                    <td>@pagamento.ImportoRicarica €</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h5>Non sono presenti pagamenti.</h5>
+}
